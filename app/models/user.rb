@@ -6,11 +6,63 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :login, :username, :email, :password, :password_confirmation, :remember_me
-  
   attr_accessor :login
   
+  # Models
   has_many :assignments
   has_many :roles, :through => :assignments
+  
+  
+  # validation
+  validates_presence_of :username
+  validates_uniqueness_of :username
+  validates_confirmation_of :password , :message => "Password doesn't match password confirmation"
+    
+  
+  def User.create_and_assign_roles( new_user, role_id_array)
+    for role_id in role_id_array
+      role = Role.find_by_id( role_id.to_i )
+      new_user.roles << role 
+    end
+    
+    new_user.save
+  end
+  
+  
+  def update_roles( new_role_id_array )
+    current_role_id_array = Assignment.find(:all, :conditions => {
+      :user_id => self.id
+    }).collect{ |x| x.role_id }
+    
+    role_to_be_destroyed  = current_role_id_array - new_role_id_array
+    role_to_be_created    = new_role_id_array   - current_role_id_array
+    
+    role_to_be_destroyed.each do |x|
+      Assignment.find(:first, :conditions => {
+        :role_id => x, :user_id => self.id
+      }).destroy 
+    end
+    
+    role_to_be_created.each do |x|
+      Assignment.create :role_id => x , :user_id  => self.id
+    end
+    
+  end
+  
+
+  def User.all_user_except_role( role  )
+    
+  end
+   
+   
+  
+  
+  def has_role?(role_sym)
+    roles.any? { |r| r.name.underscore.to_sym == role_sym }
+  end
+  
+  
+    
   
   
   

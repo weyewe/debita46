@@ -1,7 +1,18 @@
 Debita46::Application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => {:registrations => "registrations"}
+  
+  resources :users 
+  
+  match 'create_new_employee' => "users#create_employee", :as => :create_new_employee
+  match 'new_employee'        => "users#new_employee", :as => :new_employee
+  match 'all_employees'       => "users#all_employees", :as => :all_employees
+  match 'edit_employee/:username'       => "users#edit_employee", :as => :edit_employee
+  match 'update_employee/:username'       => "users#update_employee", :as => :update_employee
 
+  match 'dashboard'           => 'home#dashboard'  , :as => :dashboard
   root :to => 'home#dashboard'
+  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -27,56 +27,18 @@
     <link rel="apple-touch-icon" sizes="114x114" href="http://twitter.github.com/bootstrap/examples/images/apple-touch-icon-114x114.png">
   
     <%= stylesheet_link_tag    "application" %>
+    <%#= yield :additional_css %>
 </head>
 <body>
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Debita46</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-            <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+  <%= render :partial => "layouts/main_navbar" %>
 
     <div class="container-fluid">
       <div class="row-fluid">
         <%= render :partial => "layouts/process_navigation/process_navigation" %>
-        <div class="span9">
-          <%= render :partial => "layouts/guide/hero_unit" %>
- 
-          
-          <div class="row-fluid">
-            <div class="span8">
-              <h2>Create New User</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details »</a></p>
-            </div><!--/span-->
-
-            <div class="span4">
-              <h2>Statistics</h2>
-              <p>1 Admin</p>
-              <p>3 Cashier</p>
-              <p>1 Loan Creator</p>
-              <p>20 Debt Collector</p>
-              <p><a class="btn" href="#">View details »</a></p>
-            </div><!--/span-->
-            
-          </div><!--/row-->
-        
-        </div><!--/span-->
+      
+        <%= yield %>
+  
       </div><!--/row-->
 
       <hr>
@@ -91,6 +53,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
+    <%= yield :additional_js %>
 
   
 
