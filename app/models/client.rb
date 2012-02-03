@@ -5,7 +5,12 @@ class Client < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :account_creator_id, :username
+  
+  
+  validates_presence_of :username
+  validates_uniqueness_of :username
+  
   
   
   has_many :loans

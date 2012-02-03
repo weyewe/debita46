@@ -7,6 +7,12 @@ Debita46::Application.routes.draw do
   resources :loans
   resources :clients 
   
+    resources :clients do
+      resources :loans
+    end
+  
+  
+  
   match 'create_new_employee' => "users#create_employee", :as => :create_new_employee, :method => :post
   match 'new_employee'        => "users#new_employee", :as => :new_employee
   match 'all_employees'       => "users#all_employees", :as => :all_employees
