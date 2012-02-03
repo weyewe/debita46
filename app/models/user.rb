@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
   has_many :assignments
   has_many :roles, :through => :assignments
   
+  has_many :loans
+  has_many :clients, :through => :loans
+  
+  
   
   # validation
   validates_presence_of :username
@@ -69,38 +73,38 @@ class User < ActiveRecord::Base
   
   protected
   def self.find_for_database_authentication(conditions)
-       login = conditions.delete(:login)
-       where(conditions).where({:username => login} | { :email => login}).first
-     end
-   
-     def self.find_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
-       case_insensitive_keys.each { |k| attributes[k].try(:downcase!) }
-   
-       attributes = attributes.slice(*required_attributes)
-       attributes.delete_if { |key, value| value.blank? }
-   
-       if attributes.size == required_attributes.size
-         if attributes.has_key?(:login)
-           login = attributes.delete(:login)
-           record = find_record(login)
-         else
-           record = where(attributes).first
-         end
-       end
-   
-       unless record
-         record = new
-   
-         required_attributes.each do |key|
-           value = attributes[key]
-           record.send("#{key}=", value)
-           record.errors.add(key, value.present? ? error : :blank)
-         end
-       end
-       record
-     end
-   
-     def self.find_record(login)
-       where({:username => login} | { :email => login}).first
-     end
+    login = conditions.delete(:login)
+    where(conditions).where({:username => login} | { :email => login}).first
+  end
+
+  def self.find_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
+    case_insensitive_keys.each { |k| attributes[k].try(:downcase!) }
+
+    attributes = attributes.slice(*required_attributes)
+    attributes.delete_if { |key, value| value.blank? }
+
+    if attributes.size == required_attributes.size
+      if attributes.has_key?(:login)
+        login = attributes.delete(:login)
+        record = find_record(login)
+      else
+        record = where(attributes).first
+      end
+    end
+
+    unless record
+      record = new
+
+      required_attributes.each do |key|
+        value = attributes[key]
+        record.send("#{key}=", value)
+        record.errors.add(key, value.present? ? error : :blank)
+      end
+    end
+    record
+  end
+
+  def self.find_record(login)
+    where({:username => login} | { :email => login}).first
+  end
 end

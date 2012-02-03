@@ -1,13 +1,28 @@
 Debita46::Application.routes.draw do
+  devise_for :clients
+
   devise_for :users, :controllers => {:registrations => "registrations"}
   
   resources :users 
+  resources :loans
+  resources :clients 
   
-  match 'create_new_employee' => "users#create_employee", :as => :create_new_employee
+  match 'create_new_employee' => "users#create_employee", :as => :create_new_employee, :method => :post
   match 'new_employee'        => "users#new_employee", :as => :new_employee
   match 'all_employees'       => "users#all_employees", :as => :all_employees
   match 'edit_employee/:username'       => "users#edit_employee", :as => :edit_employee
-  match 'update_employee/:username'       => "users#update_employee", :as => :update_employee
+  match 'update_employee/:username'       => "users#update_employee", :as => :update_employee, :method => :post
+
+  match 'create_new_client' => "clients#create", :as => :create_new_client, :method => :post
+  match 'search_client' => "loans#search_client", :as => :search_client
+  match 'execute_search_client' => "clients#execute_search", :as => :execute_search_client, :method => :post
+  
+  
+  # match 'new_employee'        => "users#new_employee", :as => :new_employee
+  # match 'all_employees'       => "users#all_employees", :as => :all_employees
+  # match 'edit_employee/:username'       => "users#edit_employee", :as => :edit_employee
+  # match 'update_employee/:username'       => "users#update_employee", :as => :update_employee, :method => :post
+  # 
 
   match 'dashboard'           => 'home#dashboard'  , :as => :dashboard
   root :to => 'home#dashboard'

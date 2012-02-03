@@ -1,0 +1,55 @@
+
+<div class="span9 content">
+  <%= render :partial => "layouts/guide/new_loan" %>
+
+  
+
+  
+  <div class="row-fluid">
+    <div class="span12">
+      <%= render :partial => "loans/breadcrumb" %>
+      
+      <div class="row">
+        
+        <div class="span3">
+          <p>
+            If it is a new client, you can start by creating a client. Then, add a loan for that
+            new client.
+          </p>
+          
+          <p><a class="btn" href="#">Create client »</a></p>
+          
+          
+        </div>
+        
+        <div class="span8">
+          
+          <%= form_tag execute_search_client_url,:class => "well form-search", :method => :post do  %>
+          
+          <!-- text_field_tag 'search', nil, :placeholder => 'Enter search term...' -->
+          
+          
+          <%= text_field_tag  "search", nil,
+                :placeholder=>"enter client ID", :class=>"input-medium search-query" %>
+          <!-- <input type="text" class="input-medium search-query" placeholder="enter client ID"> -->
+          <button class="btn" type="submit">Search Client</button>
+          <% end %>
+
+          
+          <div class="alert alert-error">
+            <a class="close">×</a>
+            <strong>Ah snaaps :(.</strong> No client with that account number. 
+            <%= link_to "Create one?", new_client_url %>
+          </div>
+        </div>
+        
+      </div>
+      
+    
+    </div><!--/span-->
+
+    
+    
+  </div><!--/row-->
+
+</div><!--/span-->

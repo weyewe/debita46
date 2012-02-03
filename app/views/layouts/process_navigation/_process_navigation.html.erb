@@ -22,14 +22,20 @@
          <li><a href="#">All Unapproved</a></li>
        <% end %>
        
-       <% if current_user.has_role?(:loancreator)%>
+       <% if current_user.has_role?(:loan_creator)%>
          <li class="nav-header">Loan Creator</li>
-         <li><a href="#">Create Loan</a></li>
+         <li class="active">
+           <%= link_to "Create Loan", search_client_url %>
+          </li>
+          <li>
+            <%= link_to "Create Client", new_client_url %>
+          </li>
+          
          <li><a href="#">All Loans</a></li>
-         <li><a href="#">View Payments</a></li>
+         <li><a href="#">All Clients</a></li>
        <% end %>
 
-       <% if current_user.has_role?(:debtcollector)%>
+       <% if current_user.has_role?(:debt_collector)%>
          <li class="nav-header">Debt Collector</li>
          <li><a href="#">All Accounts </a></li>
          <li><a href="#">Approved Payments</a></li>
