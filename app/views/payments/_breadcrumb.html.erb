@@ -1,17 +1,19 @@
 <ul class="breadcrumb">
-  <li>
-    <a href="#">Search Client</a>
+  <li class="<%= get_create_payment_nav_active_state(CREATE_PAYMENT_NAV[:search_client]  , params) %>">
+    <%= link_to "Search Client", search_client_for_payment_url %>
     <span class="divider">/</span>
   </li>
   
-  <li>
-    <a href="#">Select Loan</a>
-    <span class="divider">/</span>
-  </li>
+  <% if in_select_loan_tab?(params)  or in_create_payment_tab?(params) %>
+    <li class="<%= get_create_payment_nav_active_state(CREATE_PAYMENT_NAV[:select_loan]  , params) %>">
+      <%= link_to  "Select Loan", client_loans_url(client) %>
+      <span class="divider">/</span>
+    </li>
+  <% end %>
   
-  <li>
-    <a href="#">Create Payment</a>
-  </li>
-  
-
+  <% if in_create_payment_tab?(params) %>
+    <li class="<%= get_create_payment_nav_active_state(CREATE_PAYMENT_NAV[:create_payment]  , params) %>">
+      <%= link_to  "Create Payment", new_loan_payment_url(client.id, loan.id)  %>
+    </li>
+  <% end %>
 </ul>

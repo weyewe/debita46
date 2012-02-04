@@ -25,11 +25,35 @@ DEBT_COLLECTOR_SECTION = {
 }
 
 
+
+
+###############################################
+#######
+#######      Breadcrumb Constant
+#######
+###############################################
+
 USER_NAV = {
   :list_employees => "list_employees",
   :edit_employee => "edit_employee"     
 }
 
+CREATE_PAYMENT_NAV = {
+  :search_client => "search_client",
+  :select_loan => "select_loan", 
+  :create_payment => "create_payment"   
+}
+
+
+
+
+
+
+###############################################
+#######
+#######      Other Constants
+#######
+###############################################
 
 ROLE_SYMBOL = {
   :admin => 1,

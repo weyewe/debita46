@@ -10,7 +10,7 @@
   
   <div class="row-fluid">
     <div class="span12">
-      <%= render :partial => "payments/breadcrumb" %>
+      <%= render :partial => "payments/breadcrumb", :locals => {:client => @client, :loan => @loan} %>
       
       <div class="row-fluid">
         

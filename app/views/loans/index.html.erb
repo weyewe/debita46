@@ -2,7 +2,7 @@
 <div class="span9 content">
   <%= render :partial => "layouts/guide/index_client_loans", :locals => {:client => @client} %>
 
-  <%= render :partial => "payments/breadcrumb" %>
+  <%= render :partial => "payments/breadcrumb", :locals => {:client => @client} %>
 
   
   <div class="row-fluid">

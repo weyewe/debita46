@@ -168,7 +168,9 @@ module ApplicationHelper
   
   
   def selected_create_payment_tab?(params)
-    if  params[:controller] == "loans" && params[:action] == "index"  
+    if  in_search_client_tab?(params) or
+        in_select_loan_tab?(params) or 
+        in_create_payment_tab?(params)
       return true
     end
 
