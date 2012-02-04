@@ -46,24 +46,33 @@
             </div>
           <% end %>
           
-          
-          <%= form_for Payment.new , :url => client_payments_url(@client) ,
-                :html => {:class => "form-horizontal well"} do |f| %>
-            <%= hidden_field_tag 'loan_id',  "#{@loan.id}" %>
-            <div class="control-group">
-              <%= f.label :amount, "Amount" %>
-              <div class="controls">
-                <%= f.text_field :amount, :class=>"input-xlarge"  %>
-                <p class="help-block">Enter the loan amount</p>
+          <%  if @loan.loan_clearance.is_cleared == false %>
+            <%= form_for Payment.new , :url => client_payments_url(@client) ,
+                  :html => {:class => "form-horizontal well"} do |f| %>
+              <%= hidden_field_tag 'loan_id',  "#{@loan.id}" %>
+              <div class="control-group">
+                <%= f.label :amount, "Amount" %>
+                <div class="controls">
+                  <%= f.text_field :amount, :class=>"input-xlarge"  %>
+                  <p class="help-block">Enter the loan amount. Do not put comma to separate amount.<br />
+                    E.g. : <span style="text-decoration: line-through;">33,000</span> <b>33000</b>
+                    
+                    </p>
+                </div>
               </div>
+
+
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Create Loan</button>
+              </div>
+
+
+            <% end %>
+          <% else %>
+            <div class="alert alert-success">
+              <a class="close">×</a>
+              <%= "The loan is fully paid." %> 
             </div>
-
-
-            <div class="form-actions">
-              <button class="btn btn-primary" type="submit">Create Loan</button>
-            </div>
-
-
           <% end %>
           
         </div>

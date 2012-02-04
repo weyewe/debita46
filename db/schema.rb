@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120204145726) do
+ActiveRecord::Schema.define(:version => 20120204163107) do
+
+  create_table "approvals", :force => true do |t|
+    t.string   "approvable_type",                  :null => false
+    t.string   "approvable_id",   :default => "0"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "assignments", :force => true do |t|
     t.integer  "role_id"
@@ -40,6 +48,13 @@ ActiveRecord::Schema.define(:version => 20120204145726) do
 
   add_index "clients", ["email"], :name => "index_clients_on_email", :unique => true
   add_index "clients", ["reset_password_token"], :name => "index_clients_on_reset_password_token", :unique => true
+
+  create_table "loan_clearances", :force => true do |t|
+    t.integer  "loan_id"
+    t.boolean  "is_cleared", :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "loans", :force => true do |t|
     t.integer  "client_id"

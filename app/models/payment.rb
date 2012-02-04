@@ -5,7 +5,11 @@ class Payment < ActiveRecord::Base
   belongs_to :loan
   
   def can_be_saved?
-    puts "AAAAAAAAAAA-----#{self.amount}\n"*10
+    
+    if self.amount < 0 
+      return false
+    end
+    
     loan = self.loan
     
     (loan.remaining_payment - self.amount) >= 0 
@@ -13,19 +17,24 @@ class Payment < ActiveRecord::Base
   end
   
   
+  def add_transaction_code
+    # USER_ID  + Loan_id
+    decimal_code = self.user.id.to_s + self.loan.id.to_s + self.id.to_s
+    self.transaction_code = ("PAY-" + dec2hex( decimal_code ) ).downcase
+    self.save
+  end
+  
+  
+  
   protected
   
   def add_total_paid_loan
     self.loan.add_total_paid( self.amount )
-    
   end
   
-  def add_transaction_code
-    # USER_ID  + Loan_id
-    decimal_code = self.user.id.to_s + self.loan.id.to_s
-    self.transaction_code = "PAY-" + dec2hex( decimal_code )
-    self.save
-  end
+
+  
+
   
   def dec2hex(number)
      number = Integer(number);
