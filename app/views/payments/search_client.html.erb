@@ -1,24 +1,23 @@
 
 <div class="span9 content">
-  <%= render :partial => "layouts/guide/new_loan" %>
+  <%= render :partial => "layouts/guide/new_payment" %>
 
   
 
   
   <div class="row-fluid">
     <div class="span12">
-      <%= render :partial => "loans/breadcrumb" %>
+      <%= render :partial => "payments/breadcrumb" %>
       
       <div class="row-fluid">
         
         <div class="span3">
           <p>
-            If there is no client, you can start by creating a client. Then, add a loan for that
-            new client.
+            Ask your client for their account number. 
           </p>
-          
           <p>
-            <%= link_to "Create client »", new_client_url , :class => "btn"%>
+            They must have been registered in order to create loan. If they don't have one,
+            ask them to see the LoanCreator.
           </p>
           
           
@@ -30,7 +29,6 @@
             <div class="alert alert-error">
               <a class="close">×</a>
               <strong>Ah snaaps :(.</strong> No client with that account number. 
-              <%= link_to "Create one?", new_client_url %>
             </div>
           <% end %>
           
@@ -38,7 +36,7 @@
           
             <%= text_field_tag  "search", nil,
                   :placeholder=>"enter account no", :class=>"input-medium search-query" %>
-            <%= hidden_field_tag 'destination',  "#{ROLE_SYMBOL[:loan_creator]}" %>
+            <%= hidden_field_tag 'destination',  "#{ROLE_SYMBOL[:debt_collector]}" %>
             <!-- <input type="text" class="input-medium search-query" placeholder="enter client ID"> -->
             <button class="btn" type="submit">Search Client</button>
           <% end %>

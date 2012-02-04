@@ -31,13 +31,19 @@
             <%= link_to "Create Client", new_client_url %>
           </li>
           
-         <li><a href="#">All Loans</a></li>
-         <li><a href="#">All Clients</a></li>
+         <li class="<%= get_active_state(LOAN_CREATOR_SECTION[:all_loans] , params )%>">
+           <%= link_to "All Loans", all_loans_url %>
+          </li>
+         <li class="<%= get_active_state(LOAN_CREATOR_SECTION[:all_clients] , params )%>">
+           <%= link_to "All Clients", all_clients_url %>
+          </li>
        <% end %>
 
        <% if current_user.has_role?(:debt_collector)%>
          <li class="nav-header">Debt Collector</li>
-         <li><a href="#">All Accounts </a></li>
+         <li>
+           <%= link_to "Create Payment", search_client_for_payment_url %>
+          </li>
          <li><a href="#">Approved Payments</a></li>
          <li><a href="#">Pending Approval</a></li>
          <li><a href="#">Not Approved</a></li>

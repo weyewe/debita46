@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :loans
   has_many :clients, :through => :loans
   
+  has_many :payments
+  
   
   
   # validation

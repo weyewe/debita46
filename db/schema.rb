@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120203141718) do
+ActiveRecord::Schema.define(:version => 20120204145726) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "role_id"
@@ -48,11 +48,16 @@ ActiveRecord::Schema.define(:version => 20120203141718) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "total_paid",  :precision => 15, :scale => 2, :default => 0.0
   end
 
   create_table "payments", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "amount",           :precision => 15, :scale => 2
+    t.integer  "loan_id",                                         :null => false
+    t.integer  "user_id",                                         :null => false
+    t.text     "transaction_code"
   end
 
   create_table "roles", :force => true do |t|

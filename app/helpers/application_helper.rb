@@ -10,6 +10,9 @@ module ApplicationHelper
   
   def get_active_state( section , params )
     
+    
+    # For the Admin
+    
      if section == ADMIN_SECTION[:create_employee]  
         if selected_create_employee_tab?(params)
           return ACTIVE
@@ -24,6 +27,8 @@ module ApplicationHelper
       end
     end
     
+    # For the LoanCreator
+    
     if section == LOAN_CREATOR_SECTION[:create_loan]  
       if   selected_search_client_for_loan_tab?(params) or 
           selected_create_loan_tab?(params)
@@ -36,6 +41,21 @@ module ApplicationHelper
         return ACTIVE
       end
     end
+  
+   if section == LOAN_CREATOR_SECTION[:all_loans]  
+      if   selected_all_loans_tab?(params) 
+        return ACTIVE
+      end
+    end
+      
+    
+    if section == LOAN_CREATOR_SECTION[:all_clients]  
+      if   selected_all_clients_tab?(params) 
+        return ACTIVE
+      end
+    end
+    
+   
     
     
   end
@@ -108,6 +128,22 @@ module ApplicationHelper
   
   def  selected_create_client_tab?(params) 
     if  params[:controller] == "clients" && params[:action] == "new"  
+      return true
+    end
+
+    return false
+  end
+  
+  def  selected_all_loans_tab?(params) 
+    if  params[:controller] == "loans" && params[:action] == "all_loans"  
+      return true
+    end
+
+    return false
+  end
+
+  def  selected_all_clients_tab?(params) 
+    if  params[:controller] == "clients" && params[:action] == "all_clients"  
       return true
     end
 

@@ -7,9 +7,10 @@ Debita46::Application.routes.draw do
   resources :loans
   resources :clients 
   
-    resources :clients do
-      resources :loans
-    end
+  resources :clients do
+    resources :loans
+    resources :payments
+  end
   
   
   
@@ -22,6 +23,12 @@ Debita46::Application.routes.draw do
   match 'create_new_client' => "clients#create", :as => :create_new_client, :method => :post
   match 'search_client' => "loans#search_client", :as => :search_client
   match 'execute_search_client' => "clients#execute_search", :as => :execute_search_client, :method => :post
+  match 'all_loans' => "loans#all_loans", :as => :all_loans 
+  match 'all_clients' => "clients#all_clients", :as => :all_clients
+  
+  match 'search_client_for_payment' => "payments#search_client", :as => :search_client_for_payment
+  
+  match 'new_loan_payment/:client_id/:loan_id' => "payments#new_loan_payment", :as => :new_loan_payment
   
   
   # match 'new_employee'        => "users#new_employee", :as => :new_employee

@@ -3,6 +3,9 @@ class ClientsController < ApplicationController
 
   end
   
+  
+  
+  
   def create
     @new_client = Client.new(params[:client])
     
@@ -13,10 +16,8 @@ class ClientsController < ApplicationController
     @new_client.account_creator_id = current_user.id
     
     if @new_client.save 
-      puts "AAAAAAAAASaving is successful\n"*10
       flash[:notice] = "Yeah, saved successfully"
     else
-      puts "BBBBBBBBSaving failed\n"*10
       flash[:error] = "New Client can't be saved. the account no & email is not unique"
     end
     
@@ -26,15 +27,32 @@ class ClientsController < ApplicationController
   
   
   def execute_search
-    @search_term = params[:search]
+    @search_term = params[:search].downcase
     @client = Client.find_by_username( @search_term )
+    @destination = params[:destination].to_i
     
     if @client.nil?
       flash[:error] = "Danger"
       redirect_to search_client_url 
       return
     else
-      redirect_to new_client_loan_url( @client )
+      redirect_to  get_successful_search_client_destination( @client , @destination )
+    end
+  end
+  
+  def all_clients
+  end
+  
+  protected
+  
+  def get_successful_search_client_destination( client, destination )
+    
+    if(  destination == ROLE_SYMBOL[:loan_creator]  )
+      return new_client_loan_url(client)
+    end
+    
+    if(  destination == ROLE_SYMBOL[:debt_collector]  )
+      return client_loans_url(client)
     end
   end
   
