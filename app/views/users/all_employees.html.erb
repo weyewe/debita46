@@ -24,7 +24,7 @@
         <tbody>
           <% @employees.each do |employee| %>
            <tr>
-              <td><%= link_to "#{employee.username}", edit_employee_url(employee.username)  %></td>
+              <td><%= link_to "#{employee.username.upcase}", edit_employee_url(employee.username)  %></td>
               <td><%= employee.email %></td>
               
               <% @roles.each do |role| %>

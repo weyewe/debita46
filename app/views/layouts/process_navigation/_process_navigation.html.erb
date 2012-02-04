@@ -24,10 +24,10 @@
        
        <% if current_user.has_role?(:loan_creator)%>
          <li class="nav-header">Loan Creator</li>
-         <li class="active">
+         <li class="<%= get_active_state(LOAN_CREATOR_SECTION[:create_loan] , params )%>">
            <%= link_to "Create Loan", search_client_url %>
           </li>
-          <li>
+          <li class="<%= get_active_state(LOAN_CREATOR_SECTION[:create_client] , params )%>">
             <%= link_to "Create Client", new_client_url %>
           </li>
           

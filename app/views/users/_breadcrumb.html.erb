@@ -6,7 +6,7 @@
   
   <% if params[:action] == "edit_employee" %>
   <li class='<%= get_user_nav_active_state( USER_NAV[:edit_employee]   , params ) %>'>
-    <%= link_to "#{@employee.username}", edit_employee_url( @employee.username )%>
+    <%= link_to "#{@employee.username.upcase}", edit_employee_url( @employee.username )%>
   </li>
   <% end %>
 </ul>

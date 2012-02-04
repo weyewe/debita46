@@ -17,5 +17,8 @@ USER_NAV = {
   :edit_employee => "edit_employee"     
 }
 
-
+LOAN_CREATOR_SECTION = {
+  :create_loan => "create_loan",
+  :create_client => "create_client"
+}
 
