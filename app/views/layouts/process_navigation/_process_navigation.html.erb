@@ -41,7 +41,7 @@
 
        <% if current_user.has_role?(:debt_collector)%>
          <li class="nav-header">Debt Collector</li>
-         <li>
+         <li class="<%= get_active_state(DEBT_COLLECTOR_SECTION[:create_payment] , params )%>">
            <%= link_to "Create Payment", search_client_for_payment_url %>
           </li>
          <li><a href="#">Approved Payments</a></li>

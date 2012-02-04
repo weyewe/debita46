@@ -55,6 +55,16 @@ module ApplicationHelper
       end
     end
     
+    
+     # For the DebtCollector
+     
+     if section == DEBT_COLLECTOR_SECTION[:create_payment]  
+       if   selected_create_payment_tab?(params) 
+         return ACTIVE
+       end
+     end
+     
+     
    
     
     
@@ -144,6 +154,21 @@ module ApplicationHelper
 
   def  selected_all_clients_tab?(params) 
     if  params[:controller] == "clients" && params[:action] == "all_clients"  
+      return true
+    end
+
+    return false
+  end
+  
+  
+  
+  #######################################################
+  ##### =>  For DEBT_COLLECTOR_SECTION 
+  #######################################################
+  
+  
+  def selected_create_payment_tab?(params)
+    if  params[:controller] == "loans" && params[:action] == "index"  
       return true
     end
 

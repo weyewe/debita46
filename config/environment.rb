@@ -12,10 +12,6 @@ ADMIN_SECTION = {
   :edit_employee => "edit_employee"        
 }
 
-USER_NAV = {
-  :list_employees => "list_employees",
-  :edit_employee => "edit_employee"     
-}
 
 LOAN_CREATOR_SECTION = {
   :create_loan => "create_loan",
@@ -24,9 +20,22 @@ LOAN_CREATOR_SECTION = {
   :all_loans => "all_loans"
 }
 
+DEBT_COLLECTOR_SECTION = {
+  :create_payment => "create_loan"
+}
+
+
+USER_NAV = {
+  :list_employees => "list_employees",
+  :edit_employee => "edit_employee"     
+}
+
+
 ROLE_SYMBOL = {
   :admin => 1,
   :loan_creator => 2, 
   :debt_collector => 3, 
   :cashier => 4 
 }
+
+

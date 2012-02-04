@@ -21,8 +21,8 @@
           <% @loans.each do |loan| %>
            <tr>
               <td><%= link_to "#{loan.id}", new_loan_payment_url(@client.id, loan.id) %></td>
-              <td><%= number_to_currency(loan.amount, :unit => "Rp ") %></td>
-              <td>40%</td>
+              <td><%= number_to_currency(loan.amount , :unit => "Rp ") %></td>
+              <td><%= number_to_currency(loan.total_paid , :unit => "Rp ") %></td>
               
               
             </tr>
