@@ -1,182 +1,305 @@
 module ApplicationHelper
+  include Rails.application.routes.url_helpers
+  
   ACTIVE = 'active'
   
+  ADMIN_PROCESS_LIST = {
+    :header_title => "Admin",
+    :processes => [
+     {
+       :title => "Create Employee",
+       :destination_link => "new_employee_url",
+       :conditions => [
+         {
+           :controller => "users", 
+           :action => "new_employee"
+         }
+       ]
+
+     },
+     {
+       :title => "All Employees",
+       :destination_link => "all_employees_url",
+       :conditions => [
+         {
+           :controller => "users", 
+           :action => "all_employees"
+           }, {
+             :controller => "users", 
+             :action => "edit_employee"
+           }
+         ]
+       }
+      ]
+    }
+    
+  LOAN_CREATOR_PROCESS_LIST =   {
+      :header_title => "Loan Creator",
+      :processes => [
+          {
+            :title => "Create Loan",
+            :destination_link => "search_client_url",
+            :conditions => [
+              {
+                :controller => "loans", 
+                :action => "search_client"
+              },{
+                :controller => "loans",
+                :action => "new"
+              }
+            ]
+
+          },
+          {
+              :title => "Create Client",
+              :destination_link => "new_client_url",
+              :conditions => [
+                {
+                  :controller => "clients", 
+                  :action => "new"
+                  }
+                ]
+          },  
+          {
+            :title => "All Loans",
+            :destination_link => "all_loans_url",
+            :conditions => [
+              {
+                :controller => "loans", 
+                :action => "all_loans"
+                }
+            ]
+          },
+          {
+            :title => "All Clients",
+            :destination_link => "all_clients_url",
+            :conditions => [
+              {
+                :controller => "clients", 
+                :action => "all_clients"
+                }
+             ]
+          }
+        ]
+      }
+  
+  DEBT_COLLECTOR_PROCESS_LIST =     {
+        :header_title => "Debt Collector",
+        :processes => [
+            {
+              :title => "Create Payment",
+              :destination_link => "search_client_for_payment_url",
+              :conditions => [
+                {
+                  :controller => "payments", 
+                  :action => "search_client"
+                },
+                {
+                  :controller => "loans",
+                  :action => "index"
+                },
+                {
+                  :controller => "payments",
+                  :action => "new_loan_payment"
+                }
+              ]
+
+            },
+            {
+                :title => "Approved Payments",
+                :destination_link => '#',
+                :conditions => [
+                  {
+                    :controller => '#', 
+                    :action => '#'
+                    }
+                  ]
+            },  
+            {
+              :title => "Pending Approval",
+              :destination_link => '#',
+              :conditions => [
+                {
+                  :controller => "#", 
+                  :action => '#'
+                  }
+                ]
+            },
+            {
+              :title => "Not Approved",
+              :destination_link => '#',
+              :conditions => [
+                {
+                  :controller => '#', 
+                  :action => '#'
+                  }
+                ]
+            }
+          ]
+        }
+        
+  CASHIER_PROCESS_LIST =       {
+          :header_title => "Cashier",
+          :processes => [
+              {
+                :title => "Approve Payment",
+                :destination_link => '#',
+                :conditions => [
+                  {
+                    :controller => '#', 
+                    :action => '#'
+                  }
+                ]
+
+              },
+              {
+                  :title => "Pending Approval",
+                  :destination_link => '#',
+                  :conditions => [
+                    {
+                      :controller => '#', 
+                      :action => '#'
+                      }
+                    ]
+              },  
+              {
+                :title => "View Debt Collector",
+                :destination_link => '#',
+                :conditions => [
+                  {
+                    :controller => "#", 
+                    :action => '#'
+                    }
+                  ]
+              },
+              {
+                :title => "All Approved",
+                :destination_link => '#',
+                :conditions => [
+                  {
+                    :controller => '#', 
+                    :action => '#'
+                    }
+                  ]
+              },
+              {
+                :title => "All Unapproved",
+                :destination_link => '#',
+                :conditions => [
+                  {
+                    :controller => '#', 
+                    :action => '#'
+                    }
+                  ]
+              }
+            ]
+          }
+          
+  def extract_url( some_url )
+    if some_url == '#'
+      return '#'
+    end
+    
+    eval( some_url ) 
+  end
+
+
+  #######################################################
+  #####
+  #####     Create Process Nav
+  #####
+  #######################################################
+  
+  def get_process_nav( symbol, params)
+    # create_process_nav(ADMIN_PROCESS_LIST, params )
+    
+    if symbol == :admin
+      return create_process_nav(ADMIN_PROCESS_LIST, params )
+    end
+    
+    if symbol == :loan_creator
+      return create_process_nav(LOAN_CREATOR_PROCESS_LIST, params )
+    end
+    
+    if symbol == :debt_collector
+      return create_process_nav(DEBT_COLLECTOR_PROCESS_LIST, params )
+    end
+    
+    if symbol == :cashier
+      return create_process_nav(CASHIER_PROCESS_LIST, params )
+    end
+    
+  end
+  
+  
+  def create_process_nav( process_list, params )
+    result = ""
+    result << "<ul class='nav nav-list'>"
+    result << "<li class='nav-header'>  "  + 
+                process_list[:header_title] + 
+                "</li>"
+    
+    puts "Done with printing the header title\n"*10            
+    
+    process_list[:processes].each do |process|
+      result << create_process_entry( process, params )
+    end
+    
+    result << "</ul>"
+    
+    
+    puts "The result is #{result}\n\n"*10
+    return result
+  end
+  
+  
+  def create_process_entry( process, params )
+    is_active = is_process_active?( process[:conditions], params)
+    puts "The is active value is #{is_active}\n"*10
+    
+    process_entry = ""
+    process_entry << "<li class='#{is_active}'>" + 
+                      link_to( process[:title] , extract_url( process[:destination_link] )    )
+    
+    return process_entry
+  end
+  
+  def is_process_active?( active_conditions, params  )
+    active_conditions.each do |condition|
+      if condition[:controller] == params[:controller] &&
+        condition[:action] == params[:action]
+        return ACTIVE
+      end
+
+    end
+
+    return ""
+  end
+  
+  
+  
+  
   
   #######################################################
   #####
-  #####     For the process-navigation active state
+  #####     Create Breadcrumb
   #####
   #######################################################
   
-  def get_active_state( section , params )
+  def create_breadcrumb_nav( breadcrumb_list, params )
+    result = ""
+    result << "<ul class='breadcrumb'>"
+    
+    # some processsing here 
+    element_array = []
     
     
-    # For the Admin
     
-     if section == ADMIN_SECTION[:create_employee]  
-        if selected_create_employee_tab?(params)
-          return ACTIVE
-        end
-      end
-      
-      
-    if section == ADMIN_SECTION[:all_employees] or section == ADMIN_SECTION[:edit_employee]
-      if   selected_all_employees_tab?(params) or 
-          selected_edit_employee_tab?(params)
-        return ACTIVE
-      end
-    end
-    
-    # For the LoanCreator
-    
-    if section == LOAN_CREATOR_SECTION[:create_loan]  
-      if   selected_search_client_for_loan_tab?(params) or 
-          selected_create_loan_tab?(params)
-        return ACTIVE
-      end
-    end
-    
-    if section == LOAN_CREATOR_SECTION[:create_client]  
-      if   selected_create_client_tab?(params) 
-        return ACTIVE
-      end
-    end
-  
-   if section == LOAN_CREATOR_SECTION[:all_loans]  
-      if   selected_all_loans_tab?(params) 
-        return ACTIVE
-      end
-    end
-      
-    
-    if section == LOAN_CREATOR_SECTION[:all_clients]  
-      if   selected_all_clients_tab?(params) 
-        return ACTIVE
-      end
-    end
+    # end of processing
     
     
-     # For the DebtCollector
-     
-     if section == DEBT_COLLECTOR_SECTION[:create_payment]  
-       if   selected_create_payment_tab?(params) 
-         return ACTIVE
-       end
-     end
-     
-     
-   
-    
-    
+    result << "</ul>"
   end
-  
-  
-  
-  
-  protected
-  
-  #######################################################
-  #####
-  #####     For the process-navigation active state
-  #####       , protected method to check the selected tab
-  #####
-  #######################################################
-  
-  
-  #######################################################
-  ##### =>  For ADMIN_SECTION 
-  #######################################################
-  
-  def selected_create_employee_tab?(params)
-     if params[:controller] == "users" && params[:action] == "new_employee"
-       return true
-     end
-
-     return false
-   end
-  
-  
-  def selected_all_employees_tab?(params)
-    if params[:controller] == "users" && params[:action] == "all_employees" 
-      return true
-    end
-
-    return false
-    
-  end
-  
-  def selected_edit_employee_tab?(params)
-    if  params[:controller] == "users" && params[:action] == "edit_employee"  
-      return true
-    end
-
-    return false
-  end
-  
-  
-  
-  #######################################################
-  ##### =>  For LOAN_CREATOR_SECTION 
-  #######################################################
-  
-  
-  def selected_search_client_for_loan_tab?(params)
-    if  params[:controller] == "loans" && params[:action] == "search_client"  
-      return true
-    end
-
-    return false
-  end
-  
-  def selected_create_loan_tab?(params)
-    if  params[:controller] == "loans" && params[:action] == "new"  
-      return true
-    end
-
-    return false
-  end
-  
-  def  selected_create_client_tab?(params) 
-    if  params[:controller] == "clients" && params[:action] == "new"  
-      return true
-    end
-
-    return false
-  end
-  
-  def  selected_all_loans_tab?(params) 
-    if  params[:controller] == "loans" && params[:action] == "all_loans"  
-      return true
-    end
-
-    return false
-  end
-
-  def  selected_all_clients_tab?(params) 
-    if  params[:controller] == "clients" && params[:action] == "all_clients"  
-      return true
-    end
-
-    return false
-  end
-  
-  
-  
-  #######################################################
-  ##### =>  For DEBT_COLLECTOR_SECTION 
-  #######################################################
-  
-  
-  def selected_create_payment_tab?(params)
-    if  in_search_client_tab?(params) or
-        in_select_loan_tab?(params) or 
-        in_create_payment_tab?(params)
-      return true
-    end
-
-    return false
-  end
-  
   
   
   
